@@ -1,0 +1,35 @@
+<html>
+
+<head>
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.14.3/dist/xlsx.full.min.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <input type="file" accept=".xls,.xlsx" onchange="parseExcelFile(this, 'ORDERS')">
+    <input type="file" accept=".xls,.xlsx" onchange="parseExcelFile(this, 'INVENTORY')">
+    <button onclick="process()">sstest</button>
+</body>
+<script>
+    const Excel = { ORDERS: null, INVENTORY: null };
+    function parseExcelFile(input, key) {
+        var files = input.files || [];
+        if (!files.length) return;
+        var file = files[0];
+
+        var reader = new FileReader();
+        reader.onloadend = function (event) {
+            var arrayBuffer = reader.result;
+            var options = { type: 'array' };
+            var workbook = XLSX.read(arrayBuffer, options);
+            Excel[key] = workbook;
+        };
+        reader.readAsArrayBuffer(file);
+    }
+
+    function process() {
+        console.log(Excel);
+    }
+
+</script>
+
+</html>
